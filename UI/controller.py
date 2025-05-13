@@ -32,8 +32,17 @@ class Controller:
         self._view.txtOut.controls.append(ft.Text(f"Numero di vertici: {len(grafo.nodes)} Numero di archi: {len(grafo.edges)}"))
         archiMaggiori = self._model.getArchiMaggiori()
         for i in archiMaggiori:
-            self._view.txtOut.controls.append(
-                ft.Text(f"Arco da {i[0]} a {i[1]}, peso={i[2]}"))
+            self._view.txtOut.controls.append(ft.Text(f"Arco da {i[0]} a {i[1]}, peso={i[2]}"))
+
+        # check
+        nodiApparsi = self._model.contaNodi(archiMaggiori)
+        res = []
+        # sbagliato perchè ciclo due o più volte sullo stesso arco --> da correggre
+        for node in nodiApparsi:
+            tot = self._model.contaApparizioni(nodiApparsi, node)
+            if tot >= 2:
+                res.append(node.Product_number)
+        self._view.txtOut.controls.append(ft.Text(f"I nodi ripetuti sono: {res}"))
         self._view.update_page()
         return
 

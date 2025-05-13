@@ -19,4 +19,4 @@ class Prodotto:
         return self.Product_number == other.Product_number
 
     def __str__(self):
-        return f"{self.Product_number} - {self.Product} - {self.Product_color}"
+        return f"{self.Product_number}"

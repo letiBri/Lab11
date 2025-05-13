@@ -3,6 +3,9 @@ from model.prodotto import Prodotto
 
 
 class DAO:
+    def __init__(self):
+        pass
+
     @staticmethod
     def getAllColori():
         conn = DBConnect.get_connection()
