@@ -11,6 +11,7 @@ class Controller:
         self._model = model
         self._listYear = []
         self._listColor = []
+        self.choiceDDProduct = None
 
     def fillDD(self):
         for i in range(2015, 2019):
@@ -34,20 +35,34 @@ class Controller:
         for i in archiMaggiori:
             self._view.txtOut.controls.append(ft.Text(f"Arco da {i[0]} a {i[1]}, peso={i[2]}"))
 
-        # check
         nodiApparsi = self._model.contaNodi(archiMaggiori)
         res = []
-        # sbagliato perchè ciclo due o più volte sullo stesso arco --> da correggre
-        for node in nodiApparsi:
-            tot = self._model.contaApparizioni(nodiApparsi, node)
-            if tot >= 2:
-                res.append(node.Product_number)
+        for i in nodiApparsi:
+            res.append(i.Product_number)
         self._view.txtOut.controls.append(ft.Text(f"I nodi ripetuti sono: {res}"))
+        self.fillDDProduct()
+        self._view._ddnode.disabled = False
+        self._view.btn_search.disabled = False
         self._view.update_page()
         return
 
     def fillDDProduct(self):
-        pass
+        nodes = self._model._graph.nodes
+        for n in nodes:
+            self._view._ddnode.options.append(ft.dropdown.Option(key=n.Product_number, data=n, on_click=self.readDDProduct))
+        self._view.update_page()
+        return
+
+    def readDDProduct(self, e):
+        self.choiceDDProduct = e.control.data
 
     def handle_search(self, e):
-        pass
+        if self.choiceDDProduct is None:
+            self._view.create_alert("Selezionare un prodotto")
+            self._view.update_page()
+            return
+        path = self._model.getBestSolution(self.choiceDDProduct)
+        self._view.txtOut2.controls.clear()
+        self._view.txtOut2.controls.append(ft.Text(f"Numero archi percorso più lungo: {len(path) - 1}"))
+        self._view.update_page()
+        return
