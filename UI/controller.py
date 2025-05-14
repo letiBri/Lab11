@@ -63,6 +63,6 @@ class Controller:
             return
         path = self._model.getBestSolution(self.choiceDDProduct)
         self._view.txtOut2.controls.clear()
-        self._view.txtOut2.controls.append(ft.Text(f"Numero archi percorso più lungo: {len(path) - 1}"))
+        self._view.txtOut2.controls.append(ft.Text(f"Numero archi percorso più lungo: {len(path) - 1}"))  # perchè path mi restituisce il percorso con i nodi, io voglio gli archi che sono il numero di nodi -1
         self._view.update_page()
         return

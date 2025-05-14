@@ -55,15 +55,14 @@ class Model:
     def getBestSolution(self, source):
         self._bestPath = []
         parziale = [source]
-        # successori = self.getSuccessoriAmmissibili(parziale, source)
         self.ricorsione(parziale, list(self._graph.neighbors(source)))
         return self._bestPath
 
-    def ricorsione(self, parziale, successori):
+    def ricorsione(self, parziale, successori):  # successori è la lista di nodi successori ammissibili
         if len(successori) == 0:
             if len(self._bestPath) < len(parziale):
                 self._bestPath = copy.deepcopy(parziale)
-                print(self._bestPath)
+                # print(self._bestPath)
         else:
             for n in successori:
                 parziale.append(n)
@@ -73,10 +72,10 @@ class Model:
 
     def getSuccessoriAmmissibili(self, parziale, source):
         ammissibili = []
-        pesoUltimo = self._graph[parziale[-2]][parziale[-1]]["weight"]
+        pesoUltimo = self._graph[parziale[-2]][parziale[-1]]["weight"]  # prendo il peso dell'ultimo arco
         for node in list(self._graph.neighbors(source)):
             if self.checkArchi(parziale, node):
-                pesoNuovo = self._graph[parziale[-1]][node]["weight"]
+                pesoNuovo = self._graph[parziale[-1]][node]["weight"]  # prendo il peso dell'arco che voglio aggiungere
                 if pesoNuovo >= pesoUltimo:
                     ammissibili.append(node)
         return ammissibili
